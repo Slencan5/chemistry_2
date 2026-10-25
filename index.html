@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Bác Sĩ Vật Liệu Polymer - Cấp Cứu Ca Bệnh Keo Dán</title>
+
+  <!-- Modern Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Space+Grotesk:wght@600;700;800&family=JetBrains+Mono:wght@600;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Audio elements with existing project files -->
+  <audio id="tickSound" src="tick.mp3" preload="auto"></audio>
+  <audio id="boomSound" src="boom.mp3" preload="auto"></audio>
+
+  <!-- Chemistry Background: Hexagons, Polymer Chains, Molecule Nodes -->
+  <div class="chem-background-canvas">
+    <div class="chem-glow-orb orb-1"></div>
+    <div class="chem-glow-orb orb-2"></div>
+    <div class="chem-hex-grid"></div>
+    
+    <!-- Floating SVG Molecules -->
+    <svg class="floating-molecule mol-1" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="14" fill="#06b6d4" opacity="0.6"/>
+      <circle cx="20" cy="25" r="10" fill="#38bdf8" opacity="0.5"/>
+      <circle cx="80" cy="25" r="10" fill="#38bdf8" opacity="0.5"/>
+      <line x1="50" y1="50" x2="20" y2="25" stroke="#38bdf8" stroke-width="3" opacity="0.4"/>
+      <line x1="50" y1="50" x2="80" y2="25" stroke="#38bdf8" stroke-width="3" opacity="0.4"/>
+    </svg>
+
+    <svg class="floating-molecule mol-2" viewBox="0 0 120 120">
+      <polygon points="60,20 95,40 95,80 60,100 25,80 25,40" fill="none" stroke="#f59e0b" stroke-width="2.5" opacity="0.35"/>
+      <circle cx="60" cy="20" r="6" fill="#f59e0b" opacity="0.7"/>
+      <circle cx="95" cy="40" r="6" fill="#f59e0b" opacity="0.7"/>
+      <circle cx="95" cy="80" r="6" fill="#f59e0b" opacity="0.7"/>
+      <circle cx="60" cy="100" r="6" fill="#f59e0b" opacity="0.7"/>
+      <circle cx="25" cy="80" r="6" fill="#f59e0b" opacity="0.7"/>
+      <circle cx="25" cy="40" r="6" fill="#f59e0b" opacity="0.7"/>
+    </svg>
+
+    <svg class="floating-molecule mol-3" viewBox="0 0 90 90">
+      <circle cx="45" cy="45" r="12" fill="#10b981" opacity="0.6"/>
+      <circle cx="75" cy="45" r="8" fill="#10b981" opacity="0.5"/>
+      <circle cx="15" cy="45" r="8" fill="#10b981" opacity="0.5"/>
+      <line x1="15" y1="45" x2="75" y2="45" stroke="#10b981" stroke-width="3" opacity="0.4"/>
+    </svg>
+  </div>
+
+  <canvas id="ambient-particles"></canvas>
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Main Viewport (100vh Single-Page Application, Zero Nav/Header/Footer) -->
+  <main id="game-app">
+
+    <!-- Screen 1: Start Screen (Phòng Trực Cấp Cứu) -->
+    <section id="screen-intro" class="app-screen active">
+      <div class="intro-glass-card">
+        
+        <div class="hospital-badge-strip">
+          <span class="pulse-status-badge">🚑 PHÒNG CẤP CỨU VẬT LIỆU POLYMER</span>
+          <span class="sub-badge-code">CHUYÊN ĐỀ HÓA HỌC 12 • KEO DÁN TỔNG HỢP</span>
+        </div>
+
+        <div class="intro-title-wrap">
+          <div class="title-emblem-box">⚗️</div>
+          <h1 class="main-clinic-title">BÁC SĨ VẬT LIỆU</h1>
+          <h2 class="sub-clinic-title">ĐIỀU TRỊ CA BỆNH KEO DÁN</h2>
+        </div>
+
+        <p class="intro-mission-lead">
+          Chào mừng <strong>Bác sĩ / Kỹ sư Hóa học</strong>! Hãy tiếp nhận <strong>8 ca bệnh cấp cứu</strong> từ thực tế đời sống & công nghiệp, chẩn đoán triệu chứng và kê đơn loại keo dán polymer thích hợp. Sau khi bạn chọn, hệ thống sẽ <strong>chạy mô phỏng vật lý 2 giây</strong> (thử nghiệm đinh đâm, búa đập, đổ nước, uốn gập đế giày, ép thủy lực, kéo giằng gốm sứ, ngâm nước xuồng phao, chiếu quang học hổ phách) để kiểm tra độ bền của mối dán!
+        </p>
+
+        <div class="clinic-cases-overview">
+          <div class="case-preview-pill">
+            <span class="case-num">8 CA BỆNH</span>
+            <span class="case-name">🩺 Cấp Cứu Polymer Toàn Diện</span>
+          </div>
+          <div class="case-preview-pill">
+            <span class="case-num">3 LOẠI KEO</span>
+            <span class="case-name">🛞 Vá Săm • 🪵 UF • 🧪 Epoxy</span>
+          </div>
+          <div class="case-preview-pill">
+            <span class="case-num">2s TEST</span>
+            <span class="case-name">⚡ 1000 FPS Slow-Mo Physics</span>
+          </div>
+        </div>
+
+        <div class="intro-btn-action-area">
+          <button class="btn-primary-clinic" onclick="startClinicGame()">
+            TIẾP NHẬN BỆNH NHÂN ĐẦU TIÊN 🩺
+          </button>
+          <div class="intro-hotkey-hint">
+            Mẹo thuyết trình: Bấm phím <strong>1, 2, 3</strong> để chọn keo dán • Phím <strong>Space / Enter</strong> để tiếp tục
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Screen 2: Case Clinic Arena (Phòng Khám & Mô Phỏng Thử Nghiệm) -->
+    <section id="screen-case" class="app-screen">
+      
+      <!-- Top Clinic Progress HUD Bar -->
+      <div class="case-hud-header">
+        <div class="hud-case-counter">
+          <span class="counter-label">HỒ SƠ BỆNH ÁN:</span>
+          <span class="counter-highlight" id="hud-case-index">CA BỆNH 01 / 08</span>
+        </div>
+
+        <div class="hud-stepper-pills" id="hud-stepper-container">
+          <!-- Dynamically populated in script.js for all 8 cases -->
+        </div>
+
+        <div class="hud-sound-toggle">
+          <button class="sound-switch-btn" id="btn-sound-toggle" onclick="toggleAudio()" title="Bật/Tắt âm thanh">
+            🔊
+          </button>
+        </div>
+      </div>
+
+      <!-- Main Clinic Workspace Area -->
+      <div class="case-stage-layout">
+        
+        <!-- Case Information Banner -->
+        <div class="case-info-banner" id="case-info-box">
+          <div class="case-tag-line">
+            <span class="emergency-tag" id="case-urgency-tag">🚨 CẤP CỨU GẤP</span>
+            <span class="patient-id" id="case-patient-title">Bệnh án số 1: Xe đạp bác bảo vệ</span>
+          </div>
+          
+          <h2 class="case-symptom-text" id="case-symptom-desc">
+            "Xe đạp của bác bảo vệ bị thủng đinh 2mm, cần loại keo bịt kín khí và co giãn theo cao su."
+          </h2>
+
+          <div class="case-prescription-prompt">
+            🩺 <strong>Yêu cầu điều trị:</strong> Chọn 1 loại keo dán tối ưu nhất để tiến hành bài thử nghiệm cơ lý:
+          </div>
+        </div>
+
+        <!-- 3 Adhesive Prescription Cards (Lựa chọn keo) -->
+        <div class="adhesive-cards-grid" id="adhesive-selection-grid">
+          
+          <!-- Card 1 -->
+          <div class="glue-card" id="glue-card-sam" onclick="prescribeAdhesive('sam')">
+            <div class="glue-key-badge">1</div>
+            <div class="glue-icon-emblem">🛞</div>
+            <div class="glue-card-content">
+              <h3 class="glue-title">Nhựa Vá Săm</h3>
+              <p class="glue-mechanism">Cao su phân tán trong dung môi bay hơi</p>
+              <span class="glue-feature-pill">Mềm dẻo • Co giãn đàn hồi • Kín khí</span>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="glue-card" id="glue-card-uf" onclick="prescribeAdhesive('uf')">
+            <div class="glue-key-badge">2</div>
+            <div class="glue-icon-emblem">🪵</div>
+            <div class="glue-card-content">
+              <h3 class="glue-title">Keo Ure-Formaldehit (UF)</h3>
+              <p class="glue-mechanism">Trùng ngưng Urê + Formaldehyde</p>
+              <span class="glue-feature-pill">Bám dính gỗ • Cứng cáp • Giá rẻ</span>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="glue-card" id="glue-card-epoxy" onclick="prescribeAdhesive('epoxy')">
+            <div class="glue-key-badge">3</div>
+            <div class="glue-icon-emblem">🧪</div>
+            <div class="glue-card-content">
+              <h3 class="glue-title">Keo Epoxy (Keo AB)</h3>
+              <p class="glue-mechanism">Nhựa Resin DGEBA + Hardener Amine</p>
+              <span class="glue-feature-pill">Mạng 3D nhiệt rắn • Siêu bền • Trong suốt</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Real-time Physical Testing Simulation Theater (Phòng Kiểm Tra Tải Trọng 1000 FPS) -->
+        <div class="simulation-theater" id="simulation-theater" style="display: none;">
+          
+          <div class="sim-theater-header">
+            <div class="sim-status-indicator">
+              <span class="sim-blinking-dot rec-dot"></span>
+              <span class="sim-rec-title">● REC • 1000 FPS SLOW-MO CAMERA</span>
+            </div>
+            
+            <div class="sim-telemetry-hud">
+              <span class="tele-item">ÁP LỰC: <strong id="telemetry-pressure">0.00 MPa</strong></span>
+              <span class="tele-item">BIẾN DẠNG: <strong id="telemetry-strain">0.0%</strong></span>
+              <span class="tele-item">BỘ ĐẾM: <strong id="telemetry-timer">00:00.00</strong></span>
+            </div>
+
+            <div class="sim-selected-badge" id="sim-selected-glue-tag">KEO ĐÃ CHỌN: NHỰA VÁ SĂM</div>
+          </div>
+
+          <!-- Phase Indicator Banner -->
+          <div class="sim-phase-strip" id="sim-phase-banner">
+            <span class="phase-icon">⚡</span>
+            <span id="sim-phase-text">GIAI ĐOẠN 1: THIẾT LẬP MẪU VẬT LIỆU & GIA TẢI ÁP LỰC...</span>
+          </div>
+
+          <!-- Interactive Graphic Testing Stage -->
+          <div class="sim-canvas-viewport" id="sim-viewport">
+            <!-- Dynamic simulation scenes injected via JS -->
+          </div>
+
+          <div class="sim-progress-bar-wrap">
+            <div class="sim-progress-bar-fill" id="sim-progress-bar"></div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- Modal Overlay 1: THẮNG (Chọn đúng) -->
+    <div id="modal-win" class="clinic-overlay-modal">
+      <div class="clinic-modal-dialog win-dialog">
+        
+        <div class="modal-asset-image-wrap">
+          <div class="square-photo-frame win-frame">
+            <img src="ac.jpg" alt="Correct" id="ac-img" class="clinic-result-img-square ac-img" onerror="this.style.display='none'; document.getElementById('fallback-ac-graphic').style.display='flex';" />
+            
+            <div id="fallback-ac-graphic" class="fallback-status-card win-fallback" style="display: none;">
+              <div class="fallback-icon">✅</div>
+              <div class="fallback-text">CHẨN ĐOÁN HOÀN TOÀN CHÍNH XÁC</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-dialog-body">
+          <div class="win-banner-tag">✨ KÊ ĐƠN THÀNH CÔNG • VẬT LIỆU HOÀN HẢO</div>
+          <h3 class="result-dialog-title" id="win-title">KẾT QUẢ THỬ NGHIỆM ĐẠT CHUẨN 100%!</h3>
+          
+          <div class="scientific-explanation-box" id="win-explanation">
+            <!-- Dynamic scientific explanation -->
+          </div>
+
+          <div class="modal-actions-bar">
+            <button class="btn-modal-advance" id="btn-advance-case" onclick="advanceNextCase()">
+              CHUYỂN SANG CA BỆNH TIẾP THEO ➡️
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Modal Overlay 2: THUA (Chọn sai) - CSS Shake Animation & Boom Audio -->
+    <div id="modal-lose" class="clinic-overlay-modal">
+      <div class="clinic-modal-dialog lose-dialog" id="lose-dialog-box">
+        
+        <div class="modal-asset-image-wrap">
+          <div class="square-photo-frame lose-frame">
+            <img src="wa.jpg" alt="Wrong" id="wa-img" class="clinic-result-img-square wa-img" onerror="this.style.display='none'; document.getElementById('fallback-wa-graphic').style.display='flex';" />
+            
+            <div id="fallback-wa-graphic" class="fallback-status-card lose-fallback" style="display: none;">
+              <div class="fallback-icon">💥</div>
+              <div class="fallback-text">VẬT LIỆU BỊ PHÁ HỦY HOÀN TOÀN</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-dialog-body">
+          <div class="lose-banner-tag">⚠️ BÀI TEST THẤT BẠI • SAI ĐẶC TÍNH VẬT LÝ</div>
+          <h3 class="result-dialog-title lose-title" id="lose-title">MỐI DÁN KHÔNG CHỊU ĐƯỢC TẢI TRỌNG!</h3>
+          
+          <div class="scientific-explanation-box error-expl-box" id="lose-explanation">
+            <!-- Dynamic scientific diagnostic -->
+          </div>
+
+          <div class="modal-actions-bar">
+            <button class="btn-modal-retry" onclick="retryCurrentCase()">
+              CHƠI LẠI CA BỆNH NÀY 🔄
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Modal Overlay 3: GRAND CLINIC CHAMPION (Hoàn thành cả 8 ca bệnh) -->
+    <div id="modal-grand" class="clinic-overlay-modal">
+      <div class="clinic-modal-dialog grand-dialog">
+        
+        <div class="grand-trophy-emblem">🏆</div>
+        <div class="grand-badge-title">XUẤT SẮC HOÀN THÀNH TOÀN DIỆN 8 CA BỆNH</div>
+        <h2 class="grand-main-name">BÁC SĨ VẬT LIỆU BẬC THẦY</h2>
+        
+        <p class="grand-summary-lead">
+          Chúc mừng bạn và cả lớp đã hoàn thành xuất sắc toàn bộ <strong>8 ca bệnh cấp cứu</strong>, làm chủ trọn vẹn lý thuyết và ứng dụng thực tiễn của <strong>3 loại keo dán Polymer trọng tâm Hóa học 12</strong>!
+        </p>
+
+        <!-- Final 3 Polymer Groups Synthesis Matrix -->
+        <div class="grand-cases-matrix">
+          <div class="matrix-card sam">
+            <div class="m-tag">🛞 NHÓM CAO SU • 3 CA BỆNH (1, 4, 7)</div>
+            <h4>Nhựa Vá Săm</h4>
+            <p><strong>Bản chất:</strong> Polymer cao su hòa tan trong dung môi bay hơi. Mềm dẻo, co giãn đàn hồi cao su tuyệt đối, kín khí kín nước, uốn cong 1000 lần không gãy. <em>(Săm xe, giày sneaker, xuồng cứu hộ)</em></p>
+          </div>
+
+          <div class="matrix-card uf">
+            <div class="m-tag">🪵 NHÓM AMINOPLAST • 2 CA BỆNH (2, 5)</div>
+            <h4>Keo Poly(UF)</h4>
+            <p><strong>Bản chất:</strong> Trùng ngưng Urê + Formaldehyde tạo mạng liên kết hydro bám chặt xơ cellulose gỗ, chịu lực ép nén phẳng, giá rẻ nhất thị trường. Giòn, kém bền nước. <em>(Bàn học MDF, vách ép tiêu âm)</em></p>
+          </div>
+
+          <div class="matrix-card epoxy">
+            <div class="m-tag">🧪 MẠNG 3D NHIỆT RẮN • 3 CA BỆNH (3, 6, 8)</div>
+            <h4>Keo Epoxy (AB)</h4>
+            <p><strong>Bản chất:</strong> Nhựa Resin DGEBA + Amine tạo mạng 3D siêu bền, bám dính siêu đẳng lên vô cơ (gốm sứ, kim loại), trong suốt như pha lê, không co ngót, chống thấm 100%. <em>(Bàn River Table, bình cổ, hổ phách)</em></p>
+          </div>
+        </div>
+
+        <div class="grand-action-bar">
+          <button class="btn-grand-restart" onclick="restartEntireClinic()">
+            BẮT ĐẦU CA KHÁM MỚI 🔄
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
